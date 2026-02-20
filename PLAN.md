@@ -117,8 +117,8 @@ Replace `.claude-plugin/plugin.json` with a `package.json` at the repo root:
 - [x] `skills/feature-investigation/SKILL.md`
 - [x] `skills/spike-investigation/SKILL.md`
 
-### Phase 4 — Skills: Utilities (1 file)
-- [ ] `skills/generate-slidedeck/SKILL.md`
+### Phase 4 — Skills: Utilities (1 file) ✅
+- [x] `skills/generate-slidedeck/SKILL.md`
 
 ### Phase 5 — Polish
 - [ ] Test install locally: `pi install ./` from repo root
