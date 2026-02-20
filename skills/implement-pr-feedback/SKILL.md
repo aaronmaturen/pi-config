@@ -70,6 +70,7 @@ Analyze GitHub PR comments and implement suggested changes.
    - Generate a summary of all implemented changes
    - List any skipped feedback with reasoning
    - Prepare summary comment text for the PR:
+
      ```
      ## Feedback Implementation Summary
 
@@ -84,26 +85,31 @@ Analyze GitHub PR comments and implement suggested changes.
      ```
 
 10. **Final Instructions for User**
-   - Display summary of changes made
-   - Remind user to:
-     - Review the changes
-     - Run tests locally
-     - Push when ready: `git push`
-     - Post the summary comment on the PR
-   - **IMPORTANT**: DO NOT commit or push changes - these are always manual processes
+
+- Display summary of changes made
+- Remind user to:
+  - Review the changes
+  - Run tests locally
+  - Push when ready: `git push`
+  - Post the summary comment on the PR
+- **IMPORTANT**: DO NOT commit or push changes - these are always manual processes
 
 ## Additional Features:
 
 ### Dry Run Mode
+
 Add `--dry-run` flag to preview changes without implementing:
+
 ```
 /skill:implement-pr-feedback https://github.com/acme/project/pull/123 --dry-run
 ```
+
 - Shows what would be changed
 - Lists files that would be modified
 - No actual changes made
 
 ### Error Handling
+
 - Validates PR URL format before proceeding
 - Checks GitHub CLI authentication
 - Verifies repository access
@@ -111,6 +117,7 @@ Add `--dry-run` flag to preview changes without implementing:
 - Provides clear error messages
 
 ## Notes:
+
 - Requires GitHub CLI (`gh`) to be installed and authenticated
 - Will automatically checkout the PR branch if not already on it
 - Focuses only on actionable feedback, ignoring discussion comments

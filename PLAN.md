@@ -54,7 +54,8 @@ All multi-step workflow commands become skills. For each `commands/foo.md`:
 5. Verify `name` matches directory name (lowercase, hyphens only)
 
 **Frontmatter description guidelines (critical for auto-loading):**
-- Be specific about *when* to use this skill
+
+- Be specific about _when_ to use this skill
 - Mention key triggers: tool names, actions, artifact types
 - Bad: `"Helps with commits"`
 - Good: `"Generate a JIRA-linked conventional commit message from staged git changes. Extracts ticket from branch name (PRO-####, BUG-###), checks for new TODOs, copies result to clipboard."`
@@ -62,10 +63,12 @@ All multi-step workflow commands become skills. For each `commands/foo.md`:
 ### MCP / Context7 References
 
 Pi has no MCP support. Commands that reference Context7 for documentation search:
+
 - `pr-review.md` — Step 7 "Search Documentation (context7)"
 - `scaffold.md` — Uses Context7 for framework research
 
 **Replace with:**
+
 ```markdown
 **Documentation Research:** Use web search or `npx @upstash/context7-mcp` via bash
 if available, otherwise use built-in knowledge and official documentation URLs.
@@ -80,19 +83,19 @@ Replace `.claude-plugin/plugin.json` with a `package.json` at the repo root:
 
 ```json
 {
-  "name": "@aaronmaturen/pi-config",
-  "version": "1.0.0",
-  "description": "Professional development workflow skills for pi",
-  "keywords": ["pi-package"],
-  "author": "Aaron Maturen <aaron@maturen.com>",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/aaronmaturen/pi-config"
-  },
-  "pi": {
-    "skills": ["./skills"]
-  }
+	"name": "@aaronmaturen/pi-config",
+	"version": "1.0.0",
+	"description": "Professional development workflow skills for pi",
+	"keywords": ["pi-package"],
+	"author": "Aaron Maturen <aaron@maturen.com>",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/aaronmaturen/pi-config"
+	},
+	"pi": {
+		"skills": ["./skills"]
+	}
 }
 ```
 
@@ -101,26 +104,31 @@ Replace `.claude-plugin/plugin.json` with a `package.json` at the repo root:
 ## Task Checklist
 
 ### Phase 1 — Scaffold ✅
+
 - [x] Create `package.json`
 - [x] Create `AGENTS.md` (project context for pi)
 - [x] Create `README.md`
 - [x] Create directory structure (`skills/`)
 
 ### Phase 2 — Skills: Dev Workflow (4 files) ✅
+
 - [x] `skills/commit-msg/SKILL.md`
 - [x] `skills/pr-review/SKILL.md`
 - [x] `skills/implement-pr-feedback/SKILL.md`
 - [x] `skills/ticket-explainer/SKILL.md`
 
 ### Phase 3 — Skills: Investigation (3 files) ✅
+
 - [x] `skills/bug-investigation/SKILL.md`
 - [x] `skills/feature-investigation/SKILL.md`
 - [x] `skills/spike-investigation/SKILL.md`
 
 ### Phase 4 — Skills: Utilities (1 file) ✅
+
 - [x] `skills/generate-slidedeck/SKILL.md`
 
 ### Phase 5 — Polish ✅
+
 - [x] Test install locally: `pi install /path/to/pi-config`
 - [x] Verify all skill names match their directory names
 - [x] Verify all descriptions are within 1024 char limit
@@ -144,13 +152,13 @@ pi install git:github.com/badlogic/pi-skills
 
 ## Invocation Differences (Claude Code → Pi)
 
-| Claude Code | Pi |
-|---|---|
-| `/commit-msg` | `/skill:commit-msg` |
-| `/pr-review <url>` | `/skill:pr-review <url>` |
-| `/implement-pr-feedback` | `/skill:implement-pr-feedback` |
-| `/ticket-explainer PRO-1234` | `/skill:ticket-explainer PRO-1234` |
-| `/bug-investigation PRO-1234` | `/skill:bug-investigation PRO-1234` |
+| Claude Code                       | Pi                                      |
+| --------------------------------- | --------------------------------------- |
+| `/commit-msg`                     | `/skill:commit-msg`                     |
+| `/pr-review <url>`                | `/skill:pr-review <url>`                |
+| `/implement-pr-feedback`          | `/skill:implement-pr-feedback`          |
+| `/ticket-explainer PRO-1234`      | `/skill:ticket-explainer PRO-1234`      |
+| `/bug-investigation PRO-1234`     | `/skill:bug-investigation PRO-1234`     |
 | `/feature-investigation PRO-1234` | `/skill:feature-investigation PRO-1234` |
-| `/spike-investigation` | `/skill:spike-investigation` |
-| `/generate-slidedeck` | `/skill:generate-slidedeck` |
+| `/spike-investigation`            | `/skill:spike-investigation`            |
+| `/generate-slidedeck`             | `/skill:generate-slidedeck`             |

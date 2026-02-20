@@ -4,16 +4,16 @@ Professional development workflow skills for [pi](https://shittycodingagent.ai) 
 
 ## Skills
 
-| Skill | Description |
-|---|---|
-| `commit-msg` | Generate a JIRA-linked commit message from staged changes |
-| `pr-review` | Comprehensive PR analysis with educational context |
-| `implement-pr-feedback` | Systematically work through PR review comments |
-| `ticket-explainer` | Explain a JIRA ticket in plain language |
-| `bug-investigation` | 5 Whys root cause analysis with Fix Verification Criteria |
-| `feature-investigation` | Feature requirement analysis from a JIRA ticket |
-| `spike-investigation` | Technical spike research and recommendation report |
-| `generate-slidedeck` | Generate a presentation deck from a topic or document |
+| Skill                   | Description                                               |
+| ----------------------- | --------------------------------------------------------- |
+| `commit-msg`            | Generate a JIRA-linked commit message from staged changes |
+| `pr-review`             | Comprehensive PR analysis with educational context        |
+| `implement-pr-feedback` | Systematically work through PR review comments            |
+| `ticket-explainer`      | Explain a JIRA ticket in plain language                   |
+| `bug-investigation`     | 5 Whys root cause analysis with Fix Verification Criteria |
+| `feature-investigation` | Feature requirement analysis from a JIRA ticket           |
+| `spike-investigation`   | Technical spike research and recommendation report        |
+| `generate-slidedeck`    | Generate a presentation deck from a topic or document     |
 
 ## Installation
 

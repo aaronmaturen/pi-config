@@ -12,6 +12,7 @@ Explain what work is needed for a JIRA ticket in plain language, pulling context
 ## Process:
 
 ### 1. **Validate Input**
+
 ```bash
 if [[ -z "$ARGUMENTS" ]]; then
     echo "❌ No JIRA ticket ID provided."
@@ -31,6 +32,7 @@ echo "🎫 Fetching details for: $TICKET_ID"
 ```
 
 ### 2. **Sync with Latest Main**
+
 ```bash
 echo "🔄 Syncing with latest main..."
 
@@ -53,6 +55,7 @@ echo "✅ Latest main: ${MAIN_SHA:0:8} (${MAIN_DATE})"
 ```
 
 ### 3. **Fetch Ticket Details from JIRA**
+
 ```bash
 echo "📋 Fetching JIRA ticket details..."
 
@@ -88,6 +91,7 @@ echo "   Type: $ISSUE_TYPE | Status: $STATUS | Priority: $PRIORITY"
 ```
 
 ### 4. **Find Related GitHub Activity**
+
 ```bash
 echo ""
 echo "🔍 Searching GitHub for related activity..."
@@ -136,6 +140,7 @@ fi
 ```
 
 ### 5. **Identify Affected Code Areas**
+
 ```bash
 # Files from merged PRs
 if [[ -n "$GH_REPO_FULL" ]] && [[ "$MERGED_PR_COUNT" -gt 0 ]]; then
@@ -170,6 +175,7 @@ Using all gathered data, produce a clear plain-language explanation:
 ### 📌 What This Ticket Is About
 
 [Translate the JIRA description into plain language. Explain:
+
 - The user-facing or system problem this addresses
 - Why it matters (business or user impact)
 - Any constraints or context from the description or comments]
@@ -179,20 +185,22 @@ Using all gathered data, produce a clear plain-language explanation:
 ### ✅ Acceptance Criteria
 
 **From JIRA:**
+
 - AC 1: [criterion]
 - AC 2: [criterion]
 
 **Inferred (not explicitly stated — confirm with team):**
+
 - [ ] [implied criterion based on description]
 
 ---
 
 ### 🧭 Where the Work Lives
 
-| Area | Files / Modules | Confidence |
-|------|----------------|------------|
+| Area                       | Files / Modules      | Confidence          |
+| -------------------------- | -------------------- | ------------------- |
 | [e.g., Frontend component] | `src/components/...` | High / Medium / Low |
-| [e.g., API endpoint] | `api/endpoints/...` | High / Medium / Low |
+| [e.g., API endpoint]       | `api/endpoints/...`  | High / Medium / Low |
 
 > 💡 Confidence based on: PR history, commit references, component labels, description keywords.
 
@@ -201,17 +209,21 @@ Using all gathered data, produce a clear plain-language explanation:
 ### 🔗 Related GitHub Activity
 
 #### Open PRs
+
 - **[#NUMBER] [Title]** — by @[author] — [URL]
   Branch: `[headRefName]` · Opened [createdAt]
 
 #### Merged PRs
+
 - **[#NUMBER] [Title]** — by @[author] — [URL]
   Merged [mergedAt]
 
 #### Related Commits on Main
+
 [List from /tmp/ticket_commits.txt]
 
 #### Branches
+
 [List from /tmp/ticket_branches.txt]
 
 ---
@@ -219,15 +231,19 @@ Using all gathered data, produce a clear plain-language explanation:
 ### 🛠️ What Needs to Be Done
 
 #### Backend
+
 - [ ] [Specific task]
 
 #### Frontend
+
 - [ ] [Specific task]
 
 #### Tests
+
 - [ ] [Specific task]
 
 #### Other
+
 - [ ] [e.g., Update API docs, add feature flag]
 
 ---
@@ -235,6 +251,7 @@ Using all gathered data, produce a clear plain-language explanation:
 ### ⚠️ Things to Watch Out For
 
 [Surface risks, edge cases, or unknowns based on ticket, PRs, and codebase scan:]
+
 - Unclear AC — confirm with [REPORTER]
 - Related open PRs may conflict — review before branching
 - Inline TODO comments found — check if still relevant
@@ -257,6 +274,7 @@ Using all gathered data, produce a clear plain-language explanation:
 ---
 
 ## Notes:
+
 - Requires JIRA CLI (`jira`) authenticated via `jira init`
 - Requires GitHub CLI (`gh`) authenticated via `gh auth login`
 - Fetches `origin/main` via `git fetch` — does not switch branches or modify working tree

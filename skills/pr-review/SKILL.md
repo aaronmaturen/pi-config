@@ -42,7 +42,7 @@ Review a GitHub PR and provide a comprehensive summary with documentation links.
 
    - **Compare PR Patterns** with established ones:
      - ✅ Uses existing patterns (list which ones)
-     - ⚠️  Modifies existing patterns (explain why)
+     - ⚠️ Modifies existing patterns (explain why)
      - ❌ Introduces new patterns (justify necessity)
 
    - **Examples to Look For**:
@@ -59,6 +59,7 @@ Review a GitHub PR and provide a comprehensive summary with documentation links.
    - **Impact**: What parts of the system are affected?
 
    ### Technical Changes Explained
+
    For each significant change:
    - **What changed**: Plain English explanation
    - **Why it changed**: The reasoning behind the change
@@ -107,19 +108,21 @@ Review a GitHub PR and provide a comprehensive summary with documentation links.
      ```json
      // Example user for testing auth
      {
-       "email": "test@example.com",
-       "password": "TestPass123!",
-       "role": "admin"
+     	"email": "test@example.com",
+     	"password": "TestPass123!",
+     	"role": "admin"
      }
      ```
 
 10. **Questions to Ask**
-   - Suggest thoughtful questions for code review
-   - Areas that might need clarification
-   - Edge cases not covered in tests
+
+- Suggest thoughtful questions for code review
+- Areas that might need clarification
+- Edge cases not covered in tests
 
 ## Example Output:
-```
+
+````
 # PR Review: Add User Authentication (#123)
 
 ## Overview
@@ -169,7 +172,7 @@ and introduces middleware for protecting routes.
    INSERT INTO users (email, password_hash, role) VALUES
    ('admin@test.com', '$2b$10$...', 'admin'),
    ('user@test.com', '$2b$10$...', 'user');
-   ```
+````
 
 2. Set environment variables:
    ```bash
@@ -178,6 +181,7 @@ and introduces middleware for protecting routes.
    ```
 
 ### Environment Setup
+
 ```bash
 # If using Docker:
 docker-compose up -d
@@ -189,6 +193,7 @@ npm run db:migrate  # Run any new migrations
 ```
 
 ### Manual Testing Steps
+
 1. **Test Login Flow**:
    - POST /api/auth/login with valid credentials
    - Verify JWT token returned
@@ -200,6 +205,7 @@ npm run db:migrate  # Run any new migrations
    - Access with expired token (expect 401)
 
 ### Edge Cases to Test
+
 - Login with non-existent user
 - Login with wrong password
 - Malformed JWT token
@@ -207,16 +213,19 @@ npm run db:migrate  # Run any new migrations
 - Concurrent login attempts
 
 ## Learning Points
+
 - Middleware pattern for cross-cutting concerns
 - Importance of password security
 - Token-based vs session-based auth
 
 ## Review Questions
+
 - How are refresh tokens handled?
 - What happens when a token expires mid-request?
 - Should we add rate limiting to login endpoint?
 - Are there tests for all edge cases?
-```
+
+````
 
 ## Cleanup (After Review Complete):
 ```bash
@@ -231,11 +240,12 @@ rm .pr-review-original-branch
 
 # Optionally delete PR branch locally
 git branch -D pr-branch-name
-```
+````
 
 Note: Stay on the PR branch while reviewing and testing. Only run cleanup when completely done.
 
 ## Notes:
+
 - Requires GitHub CLI (`gh`) to be installed and authenticated
 - Uses current directory to leverage existing Docker/dependency setup
 - Automatically stashes current work and saves original branch

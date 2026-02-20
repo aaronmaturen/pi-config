@@ -8,6 +8,7 @@ description: Generate a JIRA-linked conventional commit message from staged git 
 Analyze staged changes and generate a commit message with JIRA ticket number from the current branch.
 
 **IMPORTANT**:
+
 - DO NOT COMMIT - only output the commit message and copy it to clipboard
 - DO NOT include any "Co-authored-by" or emoji signatures
 - Generate clean, professional commit messages only
@@ -53,6 +54,7 @@ Analyze staged changes and generate a commit message with JIRA ticket number fro
    - If no new TODOs found, continue normally
 
 4. **Generate commit message format:**
+
    ```
    [PRO-####] Brief description (50 chars total)
 
@@ -61,6 +63,7 @@ Analyze staged changes and generate a commit message with JIRA ticket number fro
    ```
 
    **If no ticket number found**, use format:
+
    ```
    Brief description (50 chars max)
 
@@ -74,6 +77,7 @@ Analyze staged changes and generate a commit message with JIRA ticket number fro
    - Add a note that it has been copied to clipboard
 
 ## Guidelines:
+
 - **Subject line**:
   - If ticket found: Start with `[PRO-####]` or `[BUG-###]`, 50 chars max total
   - If no ticket: Just the description, 50 chars max
@@ -84,6 +88,7 @@ Analyze staged changes and generate a commit message with JIRA ticket number fro
 ## Example Output:
 
 **With PRO ticket:**
+
 ```
 [PRO-1234] Add user authentication flow
 
@@ -93,6 +98,7 @@ to ensure secure user onboarding.
 ```
 
 **With BUG ticket:**
+
 ```
 [BUG-567] Fix memory leak in image processor
 
@@ -102,6 +108,7 @@ are released even on exceptions.
 ```
 
 **Without ticket (normal branch):**
+
 ```
 Refactor database connection pooling
 
@@ -110,6 +117,7 @@ better testability and reuse across services.
 ```
 
 ## What to avoid:
+
 - Overly casual language ("wild ride", "here's the kicker")
 - References to developers or blame
 - Ending subject line with period
@@ -117,6 +125,7 @@ better testability and reuse across services.
 - Forcing ticket numbers when branch doesn't contain PRO-#### or BUG-###
 
 ## Special Cases:
+
 - **Initial commit**: Use "Initial commit" or "Initialize repository with [description]"
 - **On main branch**: No ticket prefix unless branch name contains PRO-#### or BUG-###
 - **Sequential commits**: Focus only on staged changes, not entire branch diff

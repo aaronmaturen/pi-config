@@ -19,14 +19,16 @@ Every `SKILL.md` must begin with valid frontmatter:
 
 ```markdown
 ---
-name: skill-name          # Must match parent directory name exactly
-description: ...          # Specific, action-oriented, 1-2 sentences. This is what
-                          # the model reads to decide when to auto-load the skill.
+name: skill-name # Must match parent directory name exactly
+description:
+  ... # Specific, action-oriented, 1-2 sentences. This is what
+  # the model reads to decide when to auto-load the skill.
 ---
 ```
 
 **Description guidelines:**
-- Be specific about *when* to use this skill and what it produces
+
+- Be specific about _when_ to use this skill and what it produces
 - Mention key inputs/outputs and external tools required (gh, jira, git)
 - Bad: "Helps with commits"
 - Good: "Generate a JIRA-linked conventional commit message from staged git changes. Extracts ticket from branch name (PRO-####, BUG-###), checks for new TODOs, and copies result to clipboard via pbcopy."

@@ -1,15 +1,50 @@
 {
-  "name": "@aaronmaturen/pi-config",
-  "version": "1.0.0",
-  "description": "Professional development workflow skills for pi — JIRA integration, PR review, and investigation tools",
-  "keywords": ["pi-package"],
-  "author": "Aaron Maturen",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/aaronmaturen/pi-config"
-  },
-  "pi": {
-    "skills": ["./skills"]
-  }
+	"name": "@aaronmaturen/pi-config",
+	"version": "1.0.0",
+	"description": "Professional development workflow skills for pi — JIRA integration, PR review, and investigation tools",
+	"type": "module",
+	"keywords": [
+		"pi-package"
+	],
+	"author": "Aaron Maturen",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/aaronmaturen/pi-config"
+	},
+	"publishConfig": {
+		"access": "public"
+	},
+	"files": [
+		"skills/",
+		"README.md"
+	],
+	"scripts": {
+		"format": "prettier --write .",
+		"format:check": "prettier --check .",
+		"lint": "echo 'No TypeScript sources to lint'",
+		"prepare": "husky"
+	},
+	"pi": {
+		"skills": [
+			"./skills"
+		]
+	},
+	"lint-staged": {
+		"*.{md,json}": [
+			"prettier --write"
+		],
+		"*.ts": [
+			"prettier --write",
+			"eslint --fix"
+		]
+	},
+	"devDependencies": {
+		"eslint": "^10.0.0",
+		"eslint-config-prettier": "^10.1.8",
+		"husky": "^9.1.7",
+		"lint-staged": "^16.2.7",
+		"prettier": "^3.8.1",
+		"typescript-eslint": "^8.56.0"
+	}
 }

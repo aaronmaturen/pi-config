@@ -13,6 +13,7 @@ Ask the user to select the scope for the slidedeck:
 
 **Question**: "What would you like to create a slidedeck about?"
 **Options**:
+
 1. **Entire Repository** - Overview of the entire codebase, architecture, and key features
 2. **Current Branch** - Focus on changes and features in the current git branch
 3. **Custom Topic** - Specify a custom topic or focus area
@@ -22,6 +23,7 @@ Ask the user to select the scope for the slidedeck:
 Based on the selected scope:
 
 ### For "Entire Repository":
+
 - Examine the repository structure
 - Identify key components and architecture patterns
 - Review README and documentation
@@ -29,6 +31,7 @@ Based on the selected scope:
 - Check `package.json`, `go.mod`, `requirements.txt`, etc. for dependencies
 
 ### For "Current Branch":
+
 ```bash
 # Get branch name
 git rev-parse --abbrev-ref HEAD
@@ -44,6 +47,7 @@ git diff main...HEAD
 ```
 
 ### For "Custom Topic":
+
 - Ask follow-up questions to understand the topic
 - Search the codebase for relevant files and code
 - Gather examples and key points related to the topic
@@ -53,6 +57,7 @@ git diff main...HEAD
 ### Deckset Formatting Rules:
 
 **Slide Structure:**
+
 - Start with directives (`footer`, `slidenumbers`, `autoscale`) on first lines
 - Use `---` with empty lines above and below to separate slides
 - Headers: `#`, `##`, `###`, `####` for different sizes
@@ -65,6 +70,7 @@ git diff main...HEAD
 - Line breaks: `<br/>`
 
 **Example header directives:**
+
 ```
 footer: © {Project Name} - {Current Year}
 slidenumbers: true
@@ -72,6 +78,7 @@ autoscale: true
 ```
 
 ### Recommended Slide Order:
+
 1. **Title slide** — project name and tagline
 2. **Overview** — high-level summary (2–3 bullets)
 3. **Architecture/Structure** — key components
@@ -100,6 +107,7 @@ mkdir -p ~/slidedecks/${PROJECT_NAME}
 ## Step 5: Generate the Slidedeck
 
 Create a well-structured presentation with:
+
 - Professional, concise content
 - Clear headers and sections
 - Code examples with proper syntax highlighting
@@ -109,7 +117,8 @@ Create a well-structured presentation with:
 - Slide numbers and autoscale enabled
 
 **Minimal example:**
-```markdown
+
+````markdown
 footer: © My Project - 2025
 slidenumbers: true
 autoscale: true
@@ -145,6 +154,7 @@ A one-line description of what this is.
 // Relevant code example
 const result = doTheThing();
 ```
+````
 
 ^ Explain the interesting part here
 
@@ -154,7 +164,8 @@ const result = doTheThing();
 
 **Repo:** github.com/org/project
 **Docs:** docs.example.com
-```
+
+````
 
 ## Step 6: Save the File
 
@@ -162,7 +173,7 @@ const result = doTheThing();
 mkdir -p ~/slidedecks/${PROJECT_NAME}
 # Write slidedeck content to file
 # Confirm full path to user
-```
+````
 
 ## Guidelines:
 
@@ -179,12 +190,14 @@ mkdir -p ~/slidedecks/${PROJECT_NAME}
 ## Output Message:
 
 After saving, report:
+
 1. Full path to the created file
 2. Slide count
 3. Brief summary of the content covered
 4. Suggestion to open in Deckset
 
 **Example:**
+
 ```
 ✅ Created: ~/slidedecks/my-project/presentation.md
 
