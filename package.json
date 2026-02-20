@@ -1,0 +1,15 @@
+{
+  "name": "@aaronmaturen/pi-config",
+  "version": "1.0.0",
+  "description": "Professional development workflow skills for pi — JIRA integration, PR review, and investigation tools",
+  "keywords": ["pi-package"],
+  "author": "Aaron Maturen",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aaronmaturen/pi-config"
+  },
+  "pi": {
+    "skills": ["./skills"]
+  }
+}
