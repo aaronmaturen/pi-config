@@ -112,10 +112,10 @@ Replace `.claude-plugin/plugin.json` with a `package.json` at the repo root:
 - [x] `skills/implement-pr-feedback/SKILL.md`
 - [x] `skills/ticket-explainer/SKILL.md`
 
-### Phase 3 — Skills: Investigation (3 files)
-- [ ] `skills/bug-investigation/SKILL.md`
-- [ ] `skills/feature-investigation/SKILL.md`
-- [ ] `skills/spike-investigation/SKILL.md`
+### Phase 3 — Skills: Investigation (3 files) ✅
+- [x] `skills/bug-investigation/SKILL.md`
+- [x] `skills/feature-investigation/SKILL.md`
+- [x] `skills/spike-investigation/SKILL.md`
 
 ### Phase 4 — Skills: Utilities (1 file)
 - [ ] `skills/generate-slidedeck/SKILL.md`
