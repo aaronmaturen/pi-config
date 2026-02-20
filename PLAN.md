@@ -120,12 +120,12 @@ Replace `.claude-plugin/plugin.json` with a `package.json` at the repo root:
 ### Phase 4 — Skills: Utilities (1 file) ✅
 - [x] `skills/generate-slidedeck/SKILL.md`
 
-### Phase 5 — Polish
-- [ ] Test install locally: `pi install ./` from repo root
-- [ ] Verify all skill names match their directory names
-- [ ] Verify all descriptions are specific enough for auto-loading
-- [ ] Update README with pi-specific install instructions
-- [ ] Tag v1.0.0
+### Phase 5 — Polish ✅
+- [x] Test install locally: `pi install /path/to/pi-config`
+- [x] Verify all skill names match their directory names
+- [x] Verify all descriptions are within 1024 char limit
+- [x] Confirmed all 8 skills discovered and listed by pi
+- [x] Tag v1.0.0
 
 ---
 
