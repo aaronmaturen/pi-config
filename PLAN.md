@@ -100,17 +100,17 @@ Replace `.claude-plugin/plugin.json` with a `package.json` at the repo root:
 
 ## Task Checklist
 
-### Phase 1 — Scaffold
-- [ ] Create `package.json`
-- [ ] Create `AGENTS.md` (project context for pi)
-- [ ] Create `README.md`
-- [ ] Create directory structure (`skills/`)
+### Phase 1 — Scaffold ✅
+- [x] Create `package.json`
+- [x] Create `AGENTS.md` (project context for pi)
+- [x] Create `README.md`
+- [x] Create directory structure (`skills/`)
 
-### Phase 2 — Skills: Dev Workflow (4 files)
-- [ ] `skills/commit-msg/SKILL.md`
-- [ ] `skills/pr-review/SKILL.md`
-- [ ] `skills/implement-pr-feedback/SKILL.md`
-- [ ] `skills/ticket-explainer/SKILL.md`
+### Phase 2 — Skills: Dev Workflow (4 files) ✅
+- [x] `skills/commit-msg/SKILL.md`
+- [x] `skills/pr-review/SKILL.md`
+- [x] `skills/implement-pr-feedback/SKILL.md`
+- [x] `skills/ticket-explainer/SKILL.md`
 
 ### Phase 3 — Skills: Investigation (3 files)
 - [ ] `skills/bug-investigation/SKILL.md`
