@@ -28,7 +28,8 @@
 	},
 	"pi": {
 		"extensions": [
-			"./extensions"
+			"./extensions",
+			"node_modules/@aaronmaturen/pi-context7/src/index.ts"
 		],
 		"skills": [
 			"./skills"
@@ -43,6 +44,12 @@
 			"eslint --fix"
 		]
 	},
+	"dependencies": {
+		"@aaronmaturen/pi-context7": "^1.0.1"
+	},
+	"bundledDependencies": [
+		"@aaronmaturen/pi-context7"
+	],
 	"peerDependencies": {
 		"@mariozechner/pi-coding-agent": "*"
 	},
