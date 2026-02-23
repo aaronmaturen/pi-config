@@ -16,16 +16,20 @@
 		"access": "public"
 	},
 	"files": [
+		"extensions/",
 		"skills/",
 		"README.md"
 	],
 	"scripts": {
 		"format": "prettier --write .",
 		"format:check": "prettier --check .",
-		"lint": "echo 'No TypeScript sources to lint'",
+		"lint": "eslint extensions",
 		"prepare": "husky"
 	},
 	"pi": {
+		"extensions": [
+			"./extensions"
+		],
 		"skills": [
 			"./skills"
 		]
@@ -38,6 +42,9 @@
 			"prettier --write",
 			"eslint --fix"
 		]
+	},
+	"peerDependencies": {
+		"@mariozechner/pi-coding-agent": "*"
 	},
 	"devDependencies": {
 		"eslint": "^10.0.0",
