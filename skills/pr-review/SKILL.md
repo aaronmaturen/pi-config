@@ -1,6 +1,6 @@
 ---
 name: pr-review
-description: Fetch and review a GitHub pull request with comprehensive analysis — pattern consistency against existing codebase, junior-friendly explanations, documentation links, manual testing steps with edge cases, and Fix Verification Criteria. Requires gh CLI. Usage: /skill:pr-review <PR URL or number>
+description: "Fetch and review a GitHub pull request with comprehensive analysis — pattern consistency against existing codebase, junior-friendly explanations, documentation links, manual testing steps with edge cases, and Fix Verification Criteria. Requires gh CLI. Usage: /skill:pr-review <PR URL or number>"
 ---
 
 # PR Review for Junior Engineers

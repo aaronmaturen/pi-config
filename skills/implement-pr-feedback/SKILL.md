@@ -1,6 +1,6 @@
 ---
 name: implement-pr-feedback
-description: Fetch all review comments from a GitHub PR, categorize them by priority, present an implementation plan for user approval, then systematically implement each approved change. Does not commit or push — all git actions remain manual. Requires gh CLI. Usage: /skill:implement-pr-feedback <PR URL or number>
+description: "Fetch all review comments from a GitHub PR, categorize them by priority, present an implementation plan for user approval, then systematically implement each approved change. Does not commit or push — all git actions remain manual. Requires gh CLI. Usage: /skill:implement-pr-feedback <PR URL or number>"
 ---
 
 # Implement PR Feedback

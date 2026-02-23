@@ -1,6 +1,6 @@
 ---
 name: ticket-explainer
-description: Explain what work is needed for a JIRA ticket in plain language. Fetches ticket details from JIRA, searches GitHub for related PRs and commits, identifies affected code areas, and produces a plain-English breakdown with acceptance criteria, task checklist, and suggested first steps. Requires jira and gh CLIs. Usage: /skill:ticket-explainer PROJ-1234
+description: "Explain what work is needed for a JIRA ticket in plain language. Fetches ticket details from JIRA, searches GitHub for related PRs and commits, identifies affected code areas, and produces a plain-English breakdown with acceptance criteria, task checklist, and suggested first steps. Requires jira and gh CLIs. Usage: /skill:ticket-explainer PROJ-1234"
 ---
 
 # Ticket Explainer
