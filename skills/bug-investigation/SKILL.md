@@ -90,7 +90,7 @@ fi
 ### 2. **Fetch Bug Details from JIRA**
 
 ```bash
-jira issue view "$BUG_ID" --output json > /tmp/bug_details.json
+jira issue view "$BUG_ID" --raw > /tmp/bug_details.json
 
 SUMMARY=$(jq -r '.fields.summary' /tmp/bug_details.json)
 DESCRIPTION=$(jq -r '.fields.description' /tmp/bug_details.json)
@@ -100,7 +100,7 @@ STATUS=$(jq -r '.fields.status.name' /tmp/bug_details.json)
 COMPONENTS=$(jq -r '.fields.components[].name' /tmp/bug_details.json 2>/dev/null || echo "None")
 LABELS=$(jq -r '.fields.labels[]' /tmp/bug_details.json 2>/dev/null || echo "None")
 
-jira issue comment list "$BUG_ID" --output json > /tmp/bug_comments.json
+jira issue comment list "$BUG_ID" --raw > /tmp/bug_comments.json
 
 echo "✅ Bug: $SUMMARY"
 echo "   Priority: $PRIORITY | Status: $STATUS"

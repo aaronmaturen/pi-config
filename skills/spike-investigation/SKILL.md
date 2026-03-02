@@ -1,6 +1,6 @@
 ---
 name: spike-investigation
-description: Investigate a technical spike by gathering requirements interactively, analyzing the codebase with grep and read tools, researching libraries and technologies, evaluating options with a weighted comparison matrix, and producing a recommendation report with implementation plan, research notes, and next steps. Optionally integrates with JIRA if a ticket ID is referenced.
+description: Investigate a technical spike by gathering requirements interactively, analyzing the codebase with grep and read tools, researching libraries and technologies, evaluating options, and producing a structured report using the standard spike template (Problem Statement, Context, Proposal with Options, Test Plan, Risk & Mitigation, Resources). Optionally integrates with JIRA if a ticket ID is referenced.
 ---
 
 # Spike Investigation - Technical Research & Analysis
@@ -27,8 +27,8 @@ if [[ -f "$REPORT_FILE" ]]; then
     echo "🔍 Found previous spike analysis for: $SPIKE_TOPIC"
     echo "📁 Location: $SPIKE_DIR"
 
-    sed -n '/## Executive Summary/,/## Spike Requirements/p' "$REPORT_FILE" | head -20
-    sed -n '/## Final Recommendation/,/## Implementation Plan/p' "$REPORT_FILE" | head -20
+    sed -n '/## Problem Statement/,/## Context/p' "$REPORT_FILE" | head -20
+    sed -n '/## Proposal/,/## Test Plan/p' "$REPORT_FILE" | head -30
 
     LAST_MODIFIED=$(stat -f "%Sm" -t "%Y-%m-%d %H:%M" "$REPORT_FILE" 2>/dev/null || \
                     date -r "$REPORT_FILE" "+%Y-%m-%d %H:%M" 2>/dev/null || echo "Unknown")
@@ -211,186 +211,106 @@ if [[ -f "$REPORT_FILE" ]]; then
 fi
 ```
 
-**`analysis.md`** — main report:
+**`analysis.md`** — main report using the standard spike template:
 
 ```markdown
-# Spike Investigation: [SPIKE_TOPIC]
+# Spike: [SPIKE_TOPIC]
 
 **Date:** [Investigation Date]
-**Priority:** [Business Priority]
 **Status:** [Complete / In Progress]
-**Confidence:** [High / Medium / Low]
-
-## Executive Summary
-
-### The Question
-
-[Clear description of what we investigated]
-
-### Recommendation
-
-[One sentence: what we recommend and why]
-
-### Business Impact
-
-- **Value:** [Expected business value]
-- **Effort:** [Time/resource estimate]
-- **Risk:** [Low/Medium/High]
-- **Timeline:** [Recommended timeline]
+**Author:** [Name]
 
 ---
 
-## Spike Requirements
+## Problem Statement
 
-### JIRA Context (if applicable)
-
-**Ticket:** [JIRA-KEY] — [Title]
-**Acceptance Criteria:** [From ticket]
-
-### Business Context
-
-- **Problem:** [What problem we're solving]
-- **Success Criteria:** [How we measure success]
-- **Constraints:** [Limitations]
-- **Deadline:** [When needed]
-
-### Key Questions to Answer
-
-1. [Question 1]
-2. [Question 2]
-3. [Question 3]
+[A clear, concise description of the problem being investigated. What is broken, missing, or needs to change? Why does it matter? 2–4 sentences max.]
 
 ---
 
-## Current State Analysis
+## Context
 
-### Technology Stack
+[Background information needed to understand the problem. Include:
 
-| Component | Technology | Version   | Status   |
-| --------- | ---------- | --------- | -------- |
-| [Layer]   | [Tech]     | [Version] | ✅/⚠️/❌ |
-
-### Codebase Impact
-
-**Files/areas affected:**
-
-- [file/module]: [how it's affected, change complexity]
-- [file/module]: [how it's affected, change complexity]
-
-**Dependencies:**
-
-- Current: [what we have]
-- Conflicting: [any conflicts found]
-- New required: [what we'd need to add]
+- Current state of the system / technology involved
+- How we got here (relevant history or decisions)
+- JIRA ticket reference if applicable: [JIRA-KEY] — [Title]
+- Codebase impact: files, modules, or services affected
+- Relevant constraints (timeline, team capacity, existing dependencies)]
 
 ---
 
-## Technology Research
+## Proposal
 
-### Option A: [Technology Name]
+[Brief framing of the options being evaluated and the recommendation. One short paragraph before diving into the options.]
 
-**Pros:**
+### Option 1: [Name]
 
-- ✅ [Advantage 1]
-- ✅ [Advantage 2]
+**Pros**
 
-**Cons:**
+- [Advantage 1]
+- [Advantage 2]
+- [Advantage 3]
 
-- ❌ [Disadvantage 1]
-- ❌ [Disadvantage 2]
+**Cons**
 
-**Migration complexity:** [Low/Medium/High]
-**Notes:** [Key findings from research]
+- [Disadvantage 1]
+- [Disadvantage 2]
 
-### Option B: [Technology Name]
+**Timeline**
 
-[Same structure]
-
-### Option C: [Technology Name]
-
-[Same structure]
-
-### Comparison Matrix
-
-| Criteria           | Option A | Option B | Option C | Weight |
-| ------------------ | -------- | -------- | -------- | ------ |
-| [criteria]         | /10      | /10      | /10      | %      |
-| **Weighted Score** |          |          |          | 100%   |
+[Estimated level of effort and delivery timeline for this option. Reference the Estimation & Forecasting Playbook for LoE guidance.]
 
 ---
 
-## POC Results (if applicable)
+### Option 2: [Name]
 
-**Scope:** [What was built]
-**Time taken:** [Actual vs estimate]
+**Pros**
 
-**Key findings:**
+- [Advantage 1]
+- [Advantage 2]
 
-- [Discovery 1]
-- [Discovery 2]
+**Cons**
 
-**Performance:**
+- [Disadvantage 1]
+- [Disadvantage 2]
 
-- Before: [baseline metric]
-- After: [POC metric]
+**Timeline**
 
----
-
-## Risk Assessment
-
-| Risk   | Probability  | Impact       | Mitigation   |
-| ------ | ------------ | ------------ | ------------ |
-| [Risk] | Low/Med/High | Low/Med/High | [mitigation] |
+[Estimated level of effort and delivery timeline for this option.]
 
 ---
 
-## Final Recommendation
-
-**Primary Choice:** [Technology/Strategy]
-**Rationale:** [Why this choice over alternatives]
-
-### Implementation Strategy
-
-[Chosen approach: big bang / gradual / hybrid — with rationale]
-
-### Timeline
-
-| Phase   | Description   | Duration  |
-| ------- | ------------- | --------- |
-| Phase 1 | [Description] | [X weeks] |
-| Phase 2 | [Description] | [X weeks] |
-
-### Resource Requirements
-
-- [Role]: [allocation] for [duration]
-
-### Success Metrics
-
-- **Technical:** [performance, error rate, coverage targets]
-- **Business:** [velocity, maintenance, delivery speed]
+> ℹ️ For how to estimate LoE and timelines see the **Estimation & Forecasting Playbook**
 
 ---
 
-## Next Steps & Action Items
+## Test Plan
 
-### Immediate (next 1-2 weeks)
+[How will we verify this solution works? Include:
 
-- [ ] Get stakeholder approval
-- [ ] [Specific action]
-
-### Short-term (next 4 weeks)
-
-- [ ] [Specific action]
-
-### Long-term (next 8-12 weeks)
-
-- [ ] Complete implementation
-- [ ] Post-implementation review
+- Unit / integration / e2e test strategy
+- Performance benchmarks (before/after if applicable)
+- Manual verification steps or acceptance criteria
+- Definition of done for the spike / follow-on implementation]
 
 ---
 
-**Investigation Complete:** [Date/Time]
-**Next Review:** [Date]
+## Risk & Mitigation
+
+| Risk     | Probability      | Impact           | Mitigation          |
+| -------- | ---------------- | ---------------- | ------------------- |
+| [Risk 1] | Low / Med / High | Low / Med / High | [How we address it] |
+| [Risk 2] | Low / Med / High | Low / Med / High | [How we address it] |
+
+---
+
+## Resources
+
+- [Link to JIRA ticket, design doc, RFC, ADR, or other reference]
+- [Library / framework documentation]
+- [Relevant internal runbooks or playbooks]
+- [Prior art or related spikes]
 ```
 
 **`research.md`** — detailed notes for each technology investigated, including code examples, version history, community signals, and integration discoveries.

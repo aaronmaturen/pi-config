@@ -57,7 +57,7 @@ fi
 
 ```bash
 if [[ "$FEATURE_ID" =~ ^[A-Z]+-[0-9]+$ ]]; then
-    jira issue view "$FEATURE_ID" --output json > /tmp/feature_details.json
+    jira issue view "$FEATURE_ID" --raw > /tmp/feature_details.json
 
     SUMMARY=$(jq -r '.fields.summary' /tmp/feature_details.json)
     DESCRIPTION=$(jq -r '.fields.description' /tmp/feature_details.json)
@@ -67,7 +67,7 @@ if [[ "$FEATURE_ID" =~ ^[A-Z]+-[0-9]+$ ]]; then
     COMPONENTS=$(jq -r '.fields.components[].name' /tmp/feature_details.json 2>/dev/null || echo "None")
     ACCEPTANCE_CRITERIA=$(jq -r '.fields.customfield_10100' /tmp/feature_details.json 2>/dev/null || echo "To be defined")
 
-    jira issue comment list "$FEATURE_ID" --output json > /tmp/feature_comments.json
+    jira issue comment list "$FEATURE_ID" --raw > /tmp/feature_comments.json
 
     echo "✅ Feature: $SUMMARY"
     echo "   Priority: $PRIORITY | Status: $STATUS"

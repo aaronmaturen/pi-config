@@ -59,7 +59,7 @@ echo "✅ Latest main: ${MAIN_SHA:0:8} (${MAIN_DATE})"
 ```bash
 echo "📋 Fetching JIRA ticket details..."
 
-jira issue view "$TICKET_ID" --output json > /tmp/ticket_details.json 2>/dev/null
+jira issue view "$TICKET_ID" --raw > /tmp/ticket_details.json 2>/dev/null
 
 if [[ $? -ne 0 ]]; then
     echo "⚠️  Could not fetch JIRA ticket. Check that:"
@@ -84,7 +84,7 @@ ACCEPTANCE_CRITERIA=$(jq -r '.fields.customfield_10100 // ""' /tmp/ticket_detail
 STORY_POINTS=$(jq -r '.fields.story_points // .fields.customfield_10016 // "Not estimated"' /tmp/ticket_details.json 2>/dev/null || echo "Not estimated")
 
 # Fetch comments for additional context
-jira issue comment list "$TICKET_ID" --output json > /tmp/ticket_comments.json 2>/dev/null || echo "[]" > /tmp/ticket_comments.json
+jira issue comment list "$TICKET_ID" --raw > /tmp/ticket_comments.json 2>/dev/null || echo "[]" > /tmp/ticket_comments.json
 
 echo "✅ Ticket: $SUMMARY"
 echo "   Type: $ISSUE_TYPE | Status: $STATUS | Priority: $PRIORITY"
