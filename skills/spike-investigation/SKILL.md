@@ -226,10 +226,12 @@ Generate the following deliverables. The **proposals doc** is the primary stakeh
 
 #### 7a. **`proposals.md`** — High-Level Proposal (for managers, PMs, designers)
 
-This is the document stakeholders read. It should be written in plain language, explain the "why" before the "what," and present options with clear tradeoffs. Use the following template structure:
+This is the document stakeholders read. It should be written in plain language, explain the "why" before the "what," and present options with clear tradeoffs.
+
+The template below defines **required content sections**, not literal headings. Use friendly, plain-language titles that fit the topic. Examples are shown in `[brackets]`.
 
 ```markdown
-# [Proposal Title — Plain Language]
+# [Proposal Title — plain language, not jargon]
 
 **Date:** [Date]
 **Status:** Ready for Decision
@@ -239,42 +241,37 @@ This is the document stakeholders read. It should be written in plain language, 
 
 ## Table of Contents
 
-1. [Problem Statement](#problem-statement)
-2. [Context](#context)
-3. [Proposal](#proposal)
-4. [Risk & Mitigation](#risk--mitigation)
-5. [Test Plan](#test-plan)
-6. [Resources](#resources)
+[Number all sections. Use your friendly titles here.]
 
 ---
 
-## Problem Statement
+## [Problem Statement — e.g., "Why We're Here"]
 
 [2–4 sentences max. What is the problem? Why does it matter to the business? What happens if we don't act?
 
-Write for someone who doesn't know the codebase. No jargon without explanation.]
+Write for someone who doesn't know the codebase. No jargon.]
 
 ---
 
-## Context
+## [Context — e.g., "What We Found"]
 
-[Background that stakeholders need to understand the proposal. Include:
+[Background that stakeholders need to understand the proposal:
 
-- Current state of things (what exists today)
+- Current state (what exists today)
 - How we got here (decisions, history, accumulated debt)
 - Key numbers that quantify the problem (counts, percentages, impact metrics)
 - What's already working well (acknowledge strengths)
 - Bugs or issues discovered during investigation
 
-Use tables for structured data. Explain technical concepts in plain language with analogies where helpful.]
+Use tables for structured data. Explain technical concepts in plain language — use analogies, not acronyms. If something needs a technical deep-dive, put it in an appendix and link to it.]
 
 ---
 
-## Proposal
+## [Proposal — e.g., keep "Proposal" or use the topic name]
 
 [One short paragraph framing the options and the recommendation.]
 
-### Option 1: [Name — plain language description]
+### [Option 1 — e.g., "Harden First, Then Theme"]
 
 **The Idea**
 
@@ -286,21 +283,17 @@ Use tables for structured data. Explain technical concepts in plain language wit
 | ----- | ---- | ------------ | -------- | --- |
 | ...   | ...  | ...          | ...      | ... |
 
+[Phase names should be human-readable — "Visual Inventory," not "Phase 0."]
+
 **Pros**
 
-- [Advantage 1 — frame in terms of business/team value]
-- [Advantage 2]
-- [Advantage 3]
+- [Frame in terms of business/team value, not technical elegance]
 
 **Cons**
 
-- [Disadvantage 1 — be honest about costs and tradeoffs]
-- [Disadvantage 2]
+- [Be honest about costs and tradeoffs]
 
 **Timeline**
-
-> Estimated via Monte Carlo simulation (10,000 iterations, PERT distributions).
-> See [Estimation Methodology](#appendix-estimation-methodology) for details.
 
 | Confidence | Weeks | Interpretation                      |
 | ---------- | ----- | ----------------------------------- |
@@ -309,9 +302,11 @@ Use tables for structured data. Explain technical concepts in plain language wit
 | P85        | ~X    | High confidence — plan to this      |
 | P95        | ~X    | Near certain (buffer for surprises) |
 
+[No methodology details here — the Estimation Methodology appendix explains how these were calculated.]
+
 ---
 
-### Option 2: [Name — plain language description]
+### [Option 2 — plain language name]
 
 [Same structure as Option 1]
 
@@ -347,7 +342,7 @@ Use tables for structured data. Explain technical concepts in plain language wit
 
 ---
 
-## Risk & Mitigation
+## [Risk — e.g., "What Could Go Wrong"]
 
 ### Risks Shared by All Options
 
@@ -355,29 +350,26 @@ Use tables for structured data. Explain technical concepts in plain language wit
 | ---- | ------------ | ------------ | ---------- |
 | ...  | Low/Med/High | Low/Med/High | ...        |
 
-### Risks Unique to Option 1
+### Risks Unique to [Option 1]
 
 | Risk | Probability | Impact | Mitigation |
 | ---- | ----------- | ------ | ---------- |
-| ...  | ...         | ...    | ...        |
 
-### Risks Unique to Option 2
+### Risks Unique to [Option 2]
 
 | Risk | Probability | Impact | Mitigation |
 | ---- | ----------- | ------ | ---------- |
-| ...  | ...         | ...    | ...        |
 
 ---
 
-## Test Plan
+## [Test Plan — e.g., "How We'll Verify This Works"]
 
-[How will we verify the solution works?
+[Per-option verification strategy:
 
-- Automated testing strategy (unit, integration, e2e)
-- Visual or manual verification approach
-- Performance benchmarks (before/after if applicable)
-- Definition of done / acceptance criteria
-- Rollback plan if things go wrong]
+- Automated testing (unit, integration, e2e, visual regression)
+- Manual verification approach
+- Rollback plan if things go wrong
+- Definition of done]
 
 ---
 
@@ -391,13 +383,16 @@ Use tables for structured data. Explain technical concepts in plain language wit
 
 ---
 
-## Appendix: [Topic]-Specific Detail
+## Appendix: [Topic-specific detail]
 
-[Appendices for deep-dive detail that supports the main proposal but would overwhelm the core narrative. Examples:
+[Appendices hold everything that supports the main narrative but would overwhelm it:
 
 - Current state detail (architecture, file inventory, dependency maps)
 - Per-option phase detail (gate criteria, task breakdowns, dependencies)
-- Measuring progress (metrics table with starting values and targets)]
+- Design team commitments and dependencies
+- Measuring progress (metrics table with starting values and targets)
+
+The body should stand on its own — appendices are for stakeholders who want to go deeper.]
 
 ---
 
@@ -469,14 +464,14 @@ The PERT formula weights the Most Likely estimate: **Mean = (O + 4M + P) / 6**. 
 
 **Writing guidelines for the proposals doc:**
 
-- **Audience is non-technical stakeholders.** Explain technical concepts in plain language. Use analogies.
-- **Lead with "why" before "what."** Problem Statement and Context come before any solution.
+- **Friendly section titles.** The template sections (Problem Statement, Context, Proposal, etc.) define the required _content_, not the literal headings. Use plain-language titles that read naturally — e.g., "Why We're Here" instead of "Problem Statement," "What We Found" instead of "Context," "Ship the New Theme" instead of "Phase 4." The document should feel like a narrative, not a form.
+- **No jargon in the document body.** The body is for managers, PMs, and designers. Technical terms (PERT, SCSS, `::ng-deep`, M2/M3) must be explained in plain language when first used, or kept out of the body entirely. If a concept needs technical detail to be understood, put it in an appendix and link to it. Method details like "10,000 iterations" or "PERT distributions" belong in the Estimation Methodology appendix, not inline with the timeline tables.
+- **Details in the appendices.** The main body tells the story: what's the problem, what are the options, what do we recommend, what decisions are needed. Appendices hold the evidence: codebase audits, per-phase task breakdowns, gate criteria, estimation inputs, methodology explanations. Stakeholders who want to go deeper can — but the core narrative stands on its own without them.
+- **Lead with "why" before "what."** Problem and context come before any solution.
 - **Be honest about tradeoffs.** Every option has real cons. Don't soft-pedal them.
 - **Quantify everything possible.** Numbers (counts, percentages, weeks) are more persuasive than adjectives.
 - **Use the comparison table.** Stakeholders skim — the side-by-side table is often the first thing they read.
-- **Timelines use confidence levels, not ranges.** Instead of "8–12 weeks," say "P50: ~10 weeks, P85: ~11 weeks."
-- **Keep the core narrative short.** Deep technical detail goes in appendices, not the main body.
-- **Include "Decisions Needed."** End with clear, actionable questions for the decision-makers.
+- **Timelines use confidence levels, not ranges.** Instead of "8–12 weeks," say "P50: ~10 weeks, P85: ~11 weeks." Link to the estimation appendix for methodology.
 
 ---
 
