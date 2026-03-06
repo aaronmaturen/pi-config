@@ -23,7 +23,6 @@ REPORT_FILE="${SPIKE_DIR}/analysis.md"
 RESEARCH_FILE="${SPIKE_DIR}/research.md"
 RECOMMENDATIONS_FILE="${SPIKE_DIR}/recommendations.md"
 PROPOSALS_FILE="${SPIKE_DIR}/proposals.md"
-MONTE_CARLO_FILE="${SPIKE_DIR}/monte-carlo.js"
 
 if [[ -f "$REPORT_FILE" ]]; then
     echo "🔍 Found previous spike analysis for: $SPIKE_TOPIC"
@@ -203,7 +202,7 @@ Key principles to apply:
 - Use **P85 as the recommended planning target** ("We're 85% confident we can deliver by [date]")
 - Stories should fit within **2–3 days of work** — if a phase has stories larger than that, split them
 - If historical **throughput data** (velocity per sprint) is available, use it to calibrate estimates
-- The Monte Carlo simulation is the primary forecasting tool — generate `monte-carlo.js` with every proposal
+- The Monte Carlo simulation is the primary forecasting tool — compute PERT-based confidence intervals for every proposal
 
 ### 7. **Generate Reports**
 
@@ -218,7 +217,6 @@ if [[ -f "$REPORT_FILE" ]]; then
     cp "$RESEARCH_FILE" "$BACKUP_DIR/" 2>/dev/null || true
     cp "$RECOMMENDATIONS_FILE" "$BACKUP_DIR/" 2>/dev/null || true
     cp "$PROPOSALS_FILE" "$BACKUP_DIR/" 2>/dev/null || true
-    cp "$MONTE_CARLO_FILE" "$BACKUP_DIR/" 2>/dev/null || true
 fi
 ```
 
@@ -464,9 +462,9 @@ These estimates should be recalibrated as work begins. Per the Estimation & Fore
 - **With historical velocity data:** if the team tracks throughput (stories or points completed per sprint), use that data directly — randomly sample from past sprint velocities instead of using phase-level PERT estimates. This gets more accurate over time.
 - **Each sprint:** update remaining phase estimates based on what's been learned. Re-run simulation. Over time, velocity and cycle time stabilize, making simulations more accurate and planning less stressful.
 
-### Simulation Code
+### How We Computed These Numbers
 
-The simulation is reproducible: `monte-carlo.js` in this directory. Run with `node monte-carlo.js`.
+The PERT formula weights the Most Likely estimate: **Mean = (O + 4M + P) / 6**. Standard deviation: **σ = (P − O) / 6**. Each phase is sampled from this distribution 10,000 times, and sequential phases are summed per simulation to produce the total project distribution. The confidence levels above are percentiles of that distribution.
 ```
 
 **Writing guidelines for the proposals doc:**
@@ -482,224 +480,7 @@ The simulation is reproducible: `monte-carlo.js` in this directory. Run with `no
 
 ---
 
-#### 7b. **`monte-carlo.js`** — Reproducible Timeline Simulation
-
-Generate a Node.js script alongside the proposals doc that runs the Monte Carlo simulation. The script must:
-
-1. Define phase-level 3-point estimates (Optimistic / Most Likely / Pessimistic in weeks) for each option
-2. Use PERT distributions (weighted toward Most Likely) for sampling
-3. Handle parallel phases (effective duration = max of parallel phases)
-4. Handle external blockers (design reviews, etc.) that run alongside engineering work
-5. Handle rollout/bake time (calendar time added after engineering work)
-6. Run 10,000 iterations
-7. Output confidence levels (P50, P75, P85, P95) per phase and total, for each option
-8. Output a side-by-side comparison table
-
-Use this simulation engine template:
-
-```javascript
-#!/usr/bin/env node
-
-/**
- * Monte Carlo Simulation — [SPIKE TOPIC]
- *
- * Uses PERT distributions at the phase level.
- * Each phase has: optimistic (O), most likely (M), pessimistic (P) in weeks.
- * Phases are sequential unless marked parallel.
- *
- * Run: node monte-carlo.js
- */
-
-const SIMULATIONS = 10_000;
-
-// --- PERT Distribution Sampling ---
-
-function pertRandom(o, m, p) {
-	const mean = (o + 4 * m + p) / 6;
-	const stdev = (p - o) / 6;
-	if (stdev === 0) return mean;
-
-	const alpha1 = ((mean - o) / (p - o)) * (((mean - o) * (p - mean)) / (stdev * stdev) - 1);
-	const alpha2 = (alpha1 * (p - mean)) / (mean - o);
-
-	const sample = sampleBeta(Math.max(alpha1, 0.5), Math.max(alpha2, 0.5));
-	return o + sample * (p - o);
-}
-
-function sampleBeta(a, b) {
-	const ga = sampleGamma(a);
-	const gb = sampleGamma(b);
-	return ga / (ga + gb);
-}
-
-function sampleGamma(shape) {
-	if (shape < 1) return sampleGamma(shape + 1) * Math.pow(Math.random(), 1 / shape);
-	const d = shape - 1 / 3;
-	const c = 1 / Math.sqrt(9 * d);
-	while (true) {
-		let x, v;
-		do {
-			x = randn();
-			v = 1 + c * x;
-		} while (v <= 0);
-		v = v * v * v;
-		const u = Math.random();
-		if (u < 1 - 0.0331 * (x * x) * (x * x)) return d * v;
-		if (Math.log(u) < 0.5 * x * x + d * (1 - v + Math.log(v))) return d * v;
-	}
-}
-
-function randn() {
-	const u1 = Math.random();
-	const u2 = Math.random();
-	return Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
-}
-
-// --- Phase Definitions ---
-// Populate with actual phase estimates from the investigation.
-// O = optimistic, M = most likely, P = pessimistic (all in weeks).
-//
-// For parallel phases: model as a single entry using the longer phase's estimates.
-// For phases with external blockers (e.g., design review): use max(eng work, blocker).
-// For rollout/bake time: add as a separate phase with its own O/M/P.
-
-const OPTION_1 = {
-	name: "Option 1: [Name]",
-	phases: [
-		{ name: "Phase 1 — [Name]", o: 0, m: 0, p: 0 },
-		// ... add phases
-	],
-};
-
-const OPTION_2 = {
-	name: "Option 2: [Name]",
-	phases: [
-		{ name: "Phase 1 — [Name]", o: 0, m: 0, p: 0 },
-		// ... add phases
-	],
-};
-
-// --- Simulation Engine ---
-
-function simulate(proposal) {
-	const results = [];
-	for (let i = 0; i < SIMULATIONS; i++) {
-		let total = 0;
-		const phaseResults = {};
-		for (const phase of proposal.phases) {
-			const weeks = pertRandom(phase.o, phase.m, phase.p);
-			phaseResults[phase.name] = weeks;
-			total += weeks;
-		}
-		results.push({ total, phases: phaseResults });
-	}
-	return results;
-}
-
-function percentile(arr, p) {
-	const sorted = [...arr].sort((a, b) => a - b);
-	const idx = Math.ceil(sorted.length * (p / 100)) - 1;
-	return sorted[Math.max(0, idx)];
-}
-
-function round1(n) {
-	return Math.round(n * 10) / 10;
-}
-
-function formatResults(proposal, results) {
-	const totals = results.map((r) => r.total);
-
-	console.log(`\n${"═".repeat(72)}`);
-	console.log(`  ${proposal.name}`);
-	console.log(`${"═".repeat(72)}`);
-
-	console.log(`\n  Timeline Forecast (${SIMULATIONS.toLocaleString()} simulations):`);
-	console.log(`  ┌──────────────┬─────────────┬────────────────────────────────────────┐`);
-	console.log(`  │  Confidence  │    Weeks    │  Interpretation                        │`);
-	console.log(`  ├──────────────┼─────────────┼────────────────────────────────────────┤`);
-	const levels = [
-		[50, "Even odds we finish by this date"],
-		[75, "Reasonably confident"],
-		[85, "High confidence — plan to this"],
-		[95, "Near certain (buffer for surprises)"],
-	];
-	for (const [p, desc] of levels) {
-		const w = round1(percentile(totals, p));
-		console.log(
-			`  │     P${String(p).padEnd(7)}│  ${String(w).padStart(5)} wks  │  ${desc.padEnd(38)}│`,
-		);
-	}
-	console.log(`  └──────────────┴─────────────┴────────────────────────────────────────┘`);
-
-	console.log(`\n  Per-Phase Breakdown:`);
-	console.log(`  ${"─".repeat(68)}`);
-	console.log(`  ${"Phase".padEnd(52)} P50    P85    P95`);
-	console.log(`  ${"─".repeat(68)}`);
-
-	for (const phase of proposal.phases) {
-		const phaseWeeks = results.map((r) => r.phases[phase.name]);
-		const p50 = round1(percentile(phaseWeeks, 50));
-		const p85 = round1(percentile(phaseWeeks, 85));
-		const p95 = round1(percentile(phaseWeeks, 95));
-		const shortName = phase.name.length > 50 ? phase.name.substring(0, 47) + "..." : phase.name;
-		console.log(
-			`  ${shortName.padEnd(52)} ${String(p50).padStart(4)}   ${String(p85).padStart(4)}   ${String(p95).padStart(4)}`,
-		);
-	}
-
-	const mean = round1(totals.reduce((a, b) => a + b) / totals.length);
-	console.log(`  ${"─".repeat(68)}`);
-	console.log(
-		`  ${"TOTAL".padEnd(52)} ${String(round1(percentile(totals, 50))).padStart(4)}   ${String(round1(percentile(totals, 85))).padStart(4)}   ${String(round1(percentile(totals, 95))).padStart(4)}`,
-	);
-	console.log(
-		`\n  Mean: ${mean} wks  │  Min: ${round1(Math.min(...totals))} wks  │  Max: ${round1(Math.max(...totals))} wks`,
-	);
-
-	return totals;
-}
-
-// --- Run ---
-
-console.log("\n🎲  Monte Carlo Simulation — [SPIKE TOPIC]");
-console.log(
-	`    ${SIMULATIONS.toLocaleString()} iterations  •  PERT distributions  •  Phase-level estimates\n`,
-);
-
-const totals1 = formatResults(OPTION_1, simulate(OPTION_1));
-const totals2 = formatResults(OPTION_2, simulate(OPTION_2));
-
-// Side-by-side
-console.log(`\n${"═".repeat(72)}`);
-console.log("  Side-by-Side");
-console.log(`${"═".repeat(72)}`);
-console.log(`\n  ┌──────────────┬──────────────────┬──────────────────┬──────────────┐`);
-console.log(`  │  Confidence  │   Option 1       │   Option 2       │   Delta      │`);
-console.log(`  ├──────────────┼──────────────────┼──────────────────┼──────────────┤`);
-for (const p of [50, 75, 85, 95]) {
-	const a = round1(percentile(totals1, p));
-	const b = round1(percentile(totals2, p));
-	const d = round1(a - b);
-	const sign = d >= 0 ? "+" : "";
-	console.log(
-		`  │     P${String(p).padEnd(7)}│   ${String(a).padStart(5)} weeks    │   ${String(b).padStart(5)} weeks    │  ${sign}${String(d).padStart(4)} wks   │`,
-	);
-}
-console.log(`  └──────────────┴──────────────────┴──────────────────┴──────────────┘`);
-console.log("\n");
-```
-
-**Key principles for the Monte Carlo estimates:**
-
-- **Derive O/M/P from the investigation.** Optimistic = everything goes right. Most Likely = realistic based on scope. Pessimistic = multiple things go wrong (but not catastrophe).
-- **Phases are sequential unless explicitly parallel.** Sum the durations.
-- **External blockers (design reviews, etc.) run in parallel with engineering** but may extend the phase if they take longer. Model as: effective phase duration = max(eng estimate, blocker estimate).
-- **Rollout/bake time is calendar time, not engineering effort.** Model as a separate phase.
-- **The simulation output drives the proposals doc timelines.** Run the script, copy the P50/P75/P85/P95 values into the proposals doc.
-
----
-
-#### 7c. **`analysis.md`** — Detailed Technical Analysis
+#### 7b. **`analysis.md`** — Detailed Technical Analysis
 
 The deep-dive companion to the proposals doc. Contains the full codebase audit, quantified findings, and technical detail that backs up the proposals.
 
@@ -741,11 +522,11 @@ The deep-dive companion to the proposals doc. Contains the full codebase audit, 
 [Technical recommendation with detailed justification. May include implementation sequencing, architecture decision records, and technical prerequisites.]
 ```
 
-#### 7d. **`research.md`** — Raw Research Notes
+#### 7c. **`research.md`** — Raw Research Notes
 
 Detailed notes for each technology investigated — code examples, version history, community signals, integration discoveries, API comparisons.
 
-#### 7e. **`recommendations.md`** — Implementation Guidance
+#### 7d. **`recommendations.md`** — Implementation Guidance
 
 Standalone implementation guidance: architecture changes, development workflow updates, code examples before/after, process improvements, monitoring/alerting setup.
 
@@ -756,7 +537,6 @@ The spike investigation produces these deliverables in `$SPIKE_DIR`:
 | File                 | Audience                 | Purpose                                                                                  |
 | -------------------- | ------------------------ | ---------------------------------------------------------------------------------------- |
 | `proposals.md`       | Managers, PMs, designers | High-level proposal with options, tradeoffs, Monte Carlo timelines, and decisions needed |
-| `monte-carlo.js`     | Anyone (reproducible)    | Timeline simulation script — run `node monte-carlo.js` to regenerate forecasts           |
 | `analysis.md`        | Engineering              | Deep technical analysis backing the proposals                                            |
 | `research.md`        | Engineering              | Raw research notes per technology                                                        |
 | `recommendations.md` | Engineering              | Implementation guidance and architecture decisions                                       |
@@ -769,5 +549,5 @@ The spike investigation produces these deliverables in `$SPIKE_DIR`:
 - POC is encouraged but optional — use judgment based on uncertainty and risk
 - Supports continuation from previous analyses with automatic backup
 - The proposals doc is the **primary deliverable** — it's what gets shared with stakeholders
-- Monte Carlo estimates replace flat ranges (e.g., "8–12 weeks") with confidence levels (P50/P75/P85/P95)
-- Always run `node monte-carlo.js` and copy the output into the proposals doc before finalizing
+- Monte Carlo estimates replace flat ranges (e.g., "8–12 weeks") with confidence intervals (P50/P75/P85/P95)
+- Compute PERT-based confidence intervals inline — no separate simulation scripts needed
